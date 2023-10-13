@@ -74,7 +74,7 @@ def generate_graph(a: List[float], show_figure: bool = False, save_path: str | N
     plt.gca().xaxis.set_ticks(plt.gca().get_xticks()[:-2])
 
     # Fill under the curves and add annotations
-    for arg, integral, vals in zip(a, np.trapz(f(space), space), values):
+    for arg, integral, vals in zip(a, np.trapz(values, space), values):
         plt.fill_between(space, vals, alpha=0.1)
         plt.annotate(f"$\\int f_{{{arg}}}(x)dx = {integral:.2f}$", xy=(3, vals[-1] - 0.5))
 
