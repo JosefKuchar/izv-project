@@ -127,8 +127,8 @@ def generate_sinus(show_figure: bool = False, save_path: str | None = None):
     ax[2].set_xlabel("$t$")
     ax[2].set_ylabel("$f_1(t) + f_2(t)$")
 
-    # Set limits for all subplots
-    plt.setp(ax, xlim=(0, 100), ylim=(-0.8, 0.8))
+    # Set limits and ticks for all subplots
+    plt.setp(ax, xlim=(0, 100), ylim=(-0.8, 0.8), yticks=np.linspace(-0.8, 0.8, 5))
 
     # Save and show if specified
     if save_path:
