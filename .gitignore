@@ -160,3 +160,5 @@ cython_debug/
 #.idea/
 
 tmp*.png
+*.zip
+part02/*.png
