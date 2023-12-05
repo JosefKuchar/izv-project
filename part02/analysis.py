@@ -106,6 +106,8 @@ def parse_data(df: pd.DataFrame, verbose: bool = False) -> pd.DataFrame:
         df[col] = pd.to_numeric(df[col].str.replace(",", "."), errors="coerce")
     # Drop duplicates
     df = df.drop_duplicates(subset=["p1"])
+    # Copy p2a to date column
+    df["date"] = df["p2a"]
 
     print_size(df, "new_size")
     return df
@@ -169,7 +171,8 @@ def plot_alcohol(df: pd.DataFrame, fig_location: str = None,
     data = df.query("region in ['JHM','MSK','OLK','ZLK']").copy()
     # Get hours from time
     data["p2b"] = data["p2b"] // 100
-    data["alcohol"] = (data["p11"] >= 3).replace({True: "Ano", False: "Ne"})
+    # Calculate whether alcohol was involved
+    data["alcohol"] = data["p11"].apply(lambda x: "Ano" if x >= 3 else "Ne" if x in [1,2] else None)
     # Filter out hours that are not in range 0-23
     data = data.query("p2b >= 0 and p2b <= 23")
     # Groupby and aggregate
@@ -178,7 +181,7 @@ def plot_alcohol(df: pd.DataFrame, fig_location: str = None,
     g = sns.catplot(data=data, y="p1", x="p2b", col="region", hue="alcohol",
                     hue_order=["Ano", "Ne"], kind="bar", col_wrap=2, sharex=False, sharey=False)
     # Set ylim
-    g.set(ylim=(0, 4200))
+    g.set(ylim=(0, 3000))
     # Set labels
     g.set_titles("Kraj: {col_name}")
     g.set_axis_labels("Hodina", "Počet nehod")
