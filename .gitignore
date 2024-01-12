@@ -163,3 +163,4 @@ tmp*.png
 *.zip
 part02/*.png
 *.gz
+part03/*.png
